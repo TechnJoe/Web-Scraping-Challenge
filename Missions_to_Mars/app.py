@@ -50,6 +50,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
+    "#mongodb connection\n",
     "app.config[\"MONGO_URI\"] = \"mongodb://localhost:27017/mars_app\"\n",
     "mongo = PyMongo(app)\n"
    ]

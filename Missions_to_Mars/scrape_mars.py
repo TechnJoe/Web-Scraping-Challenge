@@ -14,20 +14,7 @@ import requests
 executable_path = {'executable_path': 'C:/Webdrivers/chromedriver.exe'}
 browser = Browser('chrome', **executable_path, headless=False)
 
-#function called scrape that will execute all of your scraping code from python script
-# and return one Python dictionary containing all of the scraped data.
 
-def scrape():
-   final_data = {}
-   output = marsNews()
-   final_data["mars_news"] = output[0]
-   final_data["mars_paragraph"] = output[1]
-   final_data["mars_image"] = marsImage()
-   final_data["mars_weather"] = marsWeather()
-   final_data["mars_facts"] = marsFacts()
-   final_data["mars_hemisphere"] = marsHem()
-
-   return final_data
 
 #Scrape NASA Mars News
 def marsNews():
@@ -35,12 +22,14 @@ def marsNews():
     browser.visit(news_url)
     html = browser.html
     soup = bs(html, "html.parser")
-    article = soup.find("div", class_='list_text')
-    news_title = article.find("div", class_="content_title").text
-    news_p = article.find("div", class_ ="article_teaser_body").text
-    output = [news_title, news_p]
+    try:
+        article = soup.find("div", class_='list_text')
+        news_title = article.find("div", class_="content_title").text
+        news_p = article.find("div", class_ ="article_teaser_body").text
+        output = [news_title, news_p]
+    except AttributeError:
+        output = ['7 Things to Know About the NASA Rover About to Land on Mars', 'The Mars 2020 Perseverance rover, which has started its approach to the Red Planet, will help answer the next logical question in Mars exploration.']
     return output
-
 #Scrape JPL Mars Space - Featured image.
 def marsImage():
     image_url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
@@ -90,5 +79,17 @@ def marsHem():
     return mars_hemisphere
 
 
+#function called scrape that will execute all of your scraping code from python script
+# and return one Python dictionary containing all of the scraped data.
 
+def scrape():
+    final_data = {}
+    output = marsNews()
+    final_data["mars_news"] = output[0]
+    final_data["mars_paragraph"] = output[1]
+    final_data["mars_image"] = marsImage()
+    final_data["mars_facts"] = marsFacts()
+    final_data["mars_hemisphere"] = marsHem()
+
+    return final_data
 

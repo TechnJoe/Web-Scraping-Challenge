@@ -20,10 +20,11 @@ def index():
  
 @app.route("/scrape")
 def web_scrape():
-    db.collection.remove({})
+    db = mongo.db.mars
+    #db.collection.remove({})
     mars_data = scrape.scrape()
     db.collection.insert_one(mars_data)
     return  render_template('scrape.html')  
 
     if __name__ == "__main__":
-    app.run()(debug=True) 
+        app.run() 

@@ -1,6 +1,4 @@
 
-#pip install requests
-
 #Convert jupyter notebook to python script
 
 #Add dependencies
@@ -9,15 +7,17 @@ from splinter import Browser
 from bs4 import BeautifulSoup as bs
 from pprint import pprint
 import requests
+from webdriver_manager.chrome import ChromeDriverManager
 
 # Set Executable Path & Initialize Chrome Browser
-executable_path = {'executable_path': 'C:/Webdrivers/chromedriver.exe'}
-browser = Browser('chrome', **executable_path, headless=False)
-
-
+#executable_path = {'executable_path': ChromeDriverManager().install()}
+def init_browser():
+    executable_path = {'executable_path': 'C:/Webdrivers/chromedriver.exe'}
+    browser = Browser('chrome', **executable_path, headless=False)
 
 #Scrape NASA Mars News
 def marsNews():
+    browser =init_browser()
     news_url = "https://mars.nasa.gov/news/"
     browser.visit(news_url)
     html = browser.html
@@ -92,4 +92,3 @@ def scrape():
     final_data["mars_hemisphere"] = marsHem()
 
     return final_data
-

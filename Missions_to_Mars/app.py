@@ -1,4 +1,3 @@
-
 # Dependencies and Setup
 from flask import Flask, render_template
 from flask_pymongo import PyMongo
@@ -6,11 +5,12 @@ import scrape_mars
 import os
 
 #create an instance of Flask
-app = Flask(__name__)
+app = Flask(__name__,template_folder='template')
 
 #mongodb connection
 app.config["MONGO_URI"] = "mongodb://localhost:27017/mars_app"
 mongo = PyMongo(app)
+#db = PyMongo.mars
 
 @app.route("/")
 def index():
@@ -28,3 +28,5 @@ def web_scrape():
 
     if __name__ == "__main__":
         app.run() 
+
+

@@ -13,11 +13,12 @@ from webdriver_manager.chrome import ChromeDriverManager
 #executable_path = {'executable_path': ChromeDriverManager().install()}
 def init_browser():
     executable_path = {'executable_path': 'C:/Webdrivers/chromedriver.exe'}
-    browser = Browser('chrome', **executable_path, headless=False)
+    # browser = Browser('chrome', **executable_path, headless=False)
+    return  Browser('chrome', **executable_path, headless=False)
 
 #Scrape NASA Mars News
 def marsNews():
-    browser =init_browser()
+    browser = init_browser()
     news_url = "https://mars.nasa.gov/news/"
     browser.visit(news_url)
     html = browser.html
@@ -32,21 +33,31 @@ def marsNews():
     return output
 #Scrape JPL Mars Space - Featured image.
 def marsImage():
+    browser = init_browser()   
     image_url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
     browser.visit(image_url)
     html = browser.html
     soup = bs(html, "html.parser")
-    image = soup.find("img", class_="thumb")["src"]
+    try:
+        image = soup.find("img", class_="thumb")["src"]
+    except TypeError:
+        return None    
     featured_image_url = "https://www.jpl.nasa.gov" + image
     return featured_image_url
 
 #Scrape mars facts
 def marsFacts():
+    browser = init_browser()
     import pandas as pd
     facts_url = "https://space-facts.com/mars/"
     browser.visit(facts_url)
     mars_data = pd.read_html(facts_url)
-    mars_data = pd.DataFrame(mars_data[0])
+    try:
+
+        mars_data = pd.DataFrame(mars_data[0])
+    except AttributeError:
+        return None
+
     mars_data.columns = ["Description", "Value"]
     mars_data = mars_data.set_index("Description")
     mars_facts = mars_data.to_html(index = True, header =True)
@@ -54,6 +65,7 @@ def marsFacts():
 
 #scrape Mars Hemispheres
 def marsHem():
+    browser = init_browser()
     import time 
     hemispheres_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
     browser.visit(hemispheres_url)
@@ -65,9 +77,14 @@ def marsHem():
     hemispheres = products.find_all("div", class_="item")
 
     for hemisphere in hemispheres:
-        title = hemisphere.find("h3").text
-        title = title.replace("Enhanced", "")
-        end_link = hemisphere.find("a")["href"]
+        try:
+            title = hemisphere.find("h3").text
+            title = title.replace("Enhanced", "")
+            end_link = hemisphere.find("a")["href"]
+        except AttributeError:
+            title = None
+            end_link = None
+
         image_link = "https://astrogeology.usgs.gov/" + end_link    
         browser.visit(image_link)
         html = browser.html

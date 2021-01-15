@@ -1,3 +1,5 @@
 .vscode
 .ipynb_checkpoints
-ignore me please
+ignore me please.txt
+testing git ignore file. txt
+*.txt

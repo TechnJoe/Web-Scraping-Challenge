@@ -4,8 +4,6 @@ Background:
 
 Build a web application that scrapes data from four different websites to gather data and high resolution images related to the Mission to Mars and displays the information in a single HTML page.
 
-
-
 Step 1 
 
 Scraping:

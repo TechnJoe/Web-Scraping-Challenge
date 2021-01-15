@@ -1,7 +1,8 @@
 .vscode
 .ipynb_checkpoints
 ignore me please.txt
-testing git ignore file. txt
+testing gitignore file.txt
 *.txt
 debug.txt
 _pycache_
+debug.log

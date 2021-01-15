@@ -3,3 +3,5 @@
 ignore me please.txt
 testing git ignore file. txt
 *.txt
+debug.txt
+_pycache_
